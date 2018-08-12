@@ -1,14 +1,12 @@
-﻿
-<?php
 
-//今回の掲示板のパスワードは「a」!!!!!
+<?php
 
 
 
 //3-1 データベース接続
-$dsn='データベース名';
-$user='ユーザー名';
-$password='パスワード';
+$dsn='mysql:dbname=tt_152_99sv_coco_com;host=localhost';
+$user='tt-152.99sv-coco.com';
+$password='Kx6tDi2v';
 $pdo=new PDO($dsn,$user,$password);//$pdoは「データベース」のこと、ここでデータベースに接続している
 $pdo->query('SET NAMES UTF8');
 
@@ -61,21 +59,30 @@ foreach ($results as $row){
 
 
 
-//フォームのvalueの変数を使いたい時はそれよりも前に定義しなければならない
-if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_check)){
 
-	//3-6　データベース内のデータを取得
-	//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
-	$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
-	$results = $pdo -> query($sql);
-		foreach ($results as $row){
-			if($edit==$row['id']){
+
+
+
+//フォームのvalueの変数を使いたい時はそれよりも前に定義しなければならない
+if(isset($_POST['編集'])){
+
+	if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_check)){
+
+		//3-6　データベース内のデータを取得
+		//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
+		$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
+		$results = $pdo -> query($sql);
+			foreach ($results as $row){
+
+				if($edit==$row['id']){
 				//edit_hiddenフォームの中には$editの中身が入る（編集番号）フォームのvalueのところで設定済み
 				$name_for_edit=$row['name'];
 				$comment_for_edit=$row['comment'];
+
+				}
 			}
 		
-		}
+	}
 
 
 }
@@ -102,19 +109,19 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 <br />
 <input name="password_for_post" type="text" placeholder="パスワードをを入力" style="width:300px">
 <input name="edit_hidden" type="hidden" style="width:300px" value="<?php echo $_POST['edit']; ?>">
-<input class="button" type="submit" value="送信">
+<input class="button" type="submit" value="送信" name="送信"><!--送信ボタンに名前を設定-->
 <br />
 <br />
 <input name="delete" type="text" placeholder="投稿削除番号" style="width:300px">
 <br />
 <input name="password_for_delete" type="text" placeholder="パスワードをを入力" style="width:300px">
-<input class="button" type="submit" value="削除">
+<input class="button" type="submit" value="削除" name="削除"><!--削除ボタンに名前を設定-->
 <br />
 <br />
 <input name="edit" type="text" placeholder="編集対象番号" style="width:300px">
 <br />
 <input name="password_for_edit" type="text" placeholder="パスワードをを入力" style="width:300px">
-<input class="button" type="submit" value="編集">
+<input class="button" type="submit" value="編集" name="編集"><!--編集ボタンに名前を設定-->
 
 </form>
 
@@ -151,53 +158,51 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 
 
 
-//編集番号を入力して編集作業に移るときに画面にもともとのデータを表示しておく
 
-if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_check)){
+if(isset($_POST['編集'])){
 
-//3-6　データベース内のデータを表示
-	//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
-	$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
-	$results = $pdo -> query($sql);
-	print"<br>";
-		foreach ($results as $row){
-			//$rowの中にはテーブルのカラム(フィールド)名が入る
- 			echo $row['id'].' ';
-			echo $row['name'].' ';
-			echo $row['comment'].' ';
-			echo $row['time'].' ';
-			echo"<br>";
-		}
+	//編集番号を入力して編集作業に移るときに画面にもともとのデータを表示しておく
+	if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_check)){
 
-
-
-
-//投稿を編集した後の表示に至るまでの処理
-
-}elseif(!empty($edit_hidden)&&($password_for_post==$password_check)){
-
-				
-	//3-7
-	$id = $edit_hidden;
-	$nm = $name;
-	$kome = $comment;
-	$sql = "update test5 set name='$nm' , comment='$kome' where id = $id";
-	$result = $pdo->query($sql);
+		//3-6　データベース内のデータを表示
+		//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
+		$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
+		$results = $pdo -> query($sql);
+		print"<br>";
+			foreach ($results as $row){
+				//$rowの中にはテーブルのカラム(フィールド)名が入る
+ 				echo $row['id'].' ';
+				echo $row['name'].' ';
+				echo $row['comment'].' ';
+				echo $row['time'].' ';
+				//echo $row['password'].'<br>';
+				echo"<br>";
+			}
 
 
-	//3-6　データベース内のデータを表示
-	//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
-	$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
-	$results = $pdo -> query($sql);
-	print"<br>";
-		foreach ($results as $row){
-			//$rowの中にはテーブルのカラム(フィールド)名が入る
- 			echo $row['id'].' ';
-			echo $row['name'].' ';
-			echo $row['comment'].' ';
-			echo $row['time'].' ';
-			echo"<br>";
-		}
+
+
+
+
+
+	//上記以外の場合で編集ボタンが押されたときはもともとのデータを表示する（何も起こっていないように見える）
+	}else{
+
+		//3-6　データベース内のデータを表示
+		//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
+		$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
+		$results = $pdo -> query($sql);
+		print"<br>";
+			foreach ($results as $row){
+				//$rowの中にはテーブルのカラム(フィールド)名が入る
+ 				echo $row['id'].' ';
+				echo $row['name'].' ';
+				echo $row['comment'].' ';
+				echo $row['time'].' ';
+				//echo $row['password'].'<br>';
+				echo"<br>";
+			}
+	}
 
 
 
@@ -211,63 +216,44 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 
 
 
-//削除欄のパスワードだけ埋めて削除番号が空欄で削除ボタンを押した場合
-}elseif(!empty($password_for_delete)&&empty($delete)){
-
-		print'投稿削除番号とパスワードの両方をを入力した上で削除ボタンを押してください。';
-		print"<br>";
-
-	//3-6　データベース内のデータを表示
-	//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
-	$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
-	$results = $pdo -> query($sql);
-	print"<br>";
-		foreach ($results as $row){
-			//$rowの中にはテーブルのカラム(フィールド)名が入る
- 			echo $row['id'].' ';
-			echo $row['name'].' ';
-			echo $row['comment'].' ';
-			echo $row['time'].' ';
-			echo"<br>";
-		}
 
 
 
+//削除ボタンを押したとき・・・
+}elseif(isset($_POST['削除'])){
 
 
+	//if(!empty($delete)){
+		//もし削除番号は記入されててもパスワードが記入されてなかったら・・・
+		if(empty($password_for_delete)&&!empty($delete)){
 
+			print'投稿削除番号とパスワードの両方をを入力した上で削除ボタンを押してください。';
+			print"<br>";
 
-//削除番号を記入したして削除ボタンを押したとき・・・
-}elseif(!empty($delete)){
-	//もし削除番号は記入されててもパスワードが記入されてなかったら・・・
-	if(empty($password_for_delete)){
-
-		print'投稿削除番号とパスワードの両方をを入力した上で削除ボタンを押してください。';
-		print"<br>";
-
-	//3-6　データベース内のデータを表示
-	//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
-	$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
-	$results = $pdo -> query($sql);
-	print"<br>";
-		foreach ($results as $row){
-			//$rowの中にはテーブルのカラム(フィールド)名が入る
- 			echo $row['id'].' ';
-			echo $row['name'].' ';
-			echo $row['comment'].' ';
-			echo $row['time'].' ';
-			echo"<br>";
-		}
+			//3-6　データベース内のデータを表示
+			//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
+			$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
+			$results = $pdo -> query($sql);
+			print"<br>";
+				foreach ($results as $row){
+				//$rowの中にはテーブルのカラム(フィールド)名が入る
+ 				echo $row['id'].' ';
+				echo $row['name'].' ';
+				echo $row['comment'].' ';
+				echo $row['time'].' ';
+				//echo $row['password'].'<br>';
+				echo"<br>";
+				}
 
 
 
 	//削除番号と削除用のパスワードを両方記入した場合
-	}elseif($password_for_delete==$password_check){
+	}elseif(($password_for_delete==$password_check)&&!empty($delete)){
 		
 	$sql = "delete from test5 where id=$delete"; //テーブル名あり
 	$result = $pdo->query($sql);
 
-//3-6　データベース内のデータを表示
+	//3-6　データベース内のデータを表示
 	//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
 	$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
 	$results = $pdo -> query($sql);
@@ -278,9 +264,33 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 			echo $row['name'].' ';
 			echo $row['comment'].' ';
 			echo $row['time'].' ';
+			//echo $row['password'].'<br>';
 			echo"<br>";
 		}
-	}
+
+
+
+	//上記以外の場合は今までのデータを表示する（何も起こっていないように見える）
+	}else{
+
+		//3-6　データベース内のデータを表示
+		//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
+		$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
+		$results = $pdo -> query($sql);
+		print"<br>";
+			foreach ($results as $row){
+				//$rowの中にはテーブルのカラム(フィールド)名が入る
+ 				echo $row['id'].' ';
+				echo $row['name'].' ';
+				echo $row['comment'].' ';
+				echo $row['time'].' ';
+				//echo $row['password'].'<br>';
+				echo"<br>";
+			}
+		}
+
+
+
 
 
 
@@ -290,90 +300,111 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 //↓ここから普通の投稿の処理
 
 
-//空欄で投稿されるのを防止する
-}elseif((empty($name)||empty($comment))||empty($password_for_post)){
 
-	print'名前、コメント、パスワードを全て入力した上で送信ボタンを押して下さい。';
-	print"<br>";
 
-	//3-6　データベース内のデータを表示
-	//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
-	$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
-	$results = $pdo -> query($sql);
-	print"<br>";
-		foreach ($results as $row){
-			//$rowの中にはテーブルのカラム(フィールド)名が入る
- 			echo $row['id'].' ';
-			echo $row['name'].' ';
-			echo $row['comment'].' ';
-			echo $row['time'].' ';
-			echo"<br>";
-		}
+//送信ボタンを押したとき  (普通の投稿処理と編集後の投稿処理)
+}elseif(isset($_POST['送信'])){
 
 
 
 
-//初回投稿用（ここでパスワードを決める）
-}elseif((!empty($name)&&!empty($comment))&&($password_check==null)){
+	//投稿を編集した後の表示に至るまでの処理
+	if(!empty($edit_hidden)&&($password_for_post==$password_check)){
+
+				
+		//3-7
+		$id = $edit_hidden;
+		$nm = $name;
+		$kome = $comment;
+		$sql = "update test5 set name='$nm' , comment='$kome' where id = $id";
+		$result = $pdo->query($sql);
 
 
-
-	//3-5 　データベース内のレコードにデータを追加   テーブル名あり                                                     //nameとcommentはbindParamで設定              
-	$sql=$pdo->prepare("INSERT INTO test5 (name,comment,time,password) VALUES (:name,:comment,:time,'$password_for_post')");
-	$sql->bindParam(':name',$name,PDO::PARAM_STR);          //変数を使うときは「'」で囲む。「.」はいらない
-	$sql->bindParam(':comment',$comment,PDO::PARAM_STR);
-	$sql->bindParam(':time',$time,PDO::PARAM_STR);
-	$sql->execute();
-
-
-
-	//3-6　データベース内のデータを表示
-	//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
-	$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
-	$results = $pdo -> query($sql);
-	print"<br>";
-		foreach ($results as $row){
-			//$rowの中にはテーブルのカラム(フィールド)名が入る
- 			echo $row['id'].' ';
-			echo $row['name'].' ';
-			echo $row['comment'].' ';
-			echo $row['time'].' ';
-			echo"<br>";
-		}
-
-
-
-
-
-//二回目以降の投稿（一回目で記入したパスワードと同じかここで判断して投稿を許可する）
-}elseif((!empty($name)&&!empty($comment))&&($password_check==$password_for_post)){
-
-
-
-	//3-5 　データベース内のレコードにデータを追加   テーブル名あり                                                     //nameとcommentはbindParamで設定              
-	$sql=$pdo->prepare("INSERT INTO test5 (name,comment,time,password) VALUES (:name,:comment,:time,'$password_for_post')");
-	$sql->bindParam(':name',$name,PDO::PARAM_STR);          //変数を使うときは「'」で囲む。「.」はいらない
-	$sql->bindParam(':comment',$comment,PDO::PARAM_STR);
-	$sql->bindParam(':time',$time,PDO::PARAM_STR);
-	$sql->execute();
+		//3-6　データベース内のデータを表示
+		//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
+		$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
+		$results = $pdo -> query($sql);
+		print"<br>";
+			foreach ($results as $row){
+				//$rowの中にはテーブルのカラム(フィールド)名が入る
+ 				echo $row['id'].' ';
+				echo $row['name'].' ';
+				echo $row['comment'].' ';
+				echo $row['time'].' ';
+				//echo $row['password'].'<br>';
+				echo"<br>";
+			}
 
 
 
 
-	//3-6　データベース内のデータを表示
-	//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
-	$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
-	$results = $pdo -> query($sql);
-	print"<br>";
-		foreach ($results as $row){
-			//$rowの中にはテーブルのカラム(フィールド)名が入る
- 			echo $row['id'].' ';
-			echo $row['name'].' ';
-			echo $row['comment'].' ';
-			echo $row['time'].' ';
-			echo"<br>";
-		}
+	//初回投稿用（ここでパスワードを決める）
+	}elseif((!empty($name)&&!empty($comment))&&($password_check==null)){
 
+
+		//3-5 　データベース内のレコードにデータを追加   テーブル名あり                                                     //nameとcommentはbindParamで設定              
+		$sql=$pdo->prepare("INSERT INTO test5 (name,comment,time,password) VALUES (:name,:comment,:time,'$password_for_post')");
+		$sql->bindParam(':name',$name,PDO::PARAM_STR);          //変数を使うときは「'」で囲む。「.」はいらない
+		$sql->bindParam(':comment',$comment,PDO::PARAM_STR);
+		$sql->bindParam(':time',$time,PDO::PARAM_STR);
+		$sql->execute();
+
+
+
+		//3-6　データベース内のデータを表示
+		//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
+		$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
+		$results = $pdo -> query($sql);
+		print"<br>";
+			foreach ($results as $row){
+				//$rowの中にはテーブルのカラム(フィールド)名が入る
+ 				echo $row['id'].' ';
+				echo $row['name'].' ';
+				echo $row['comment'].' ';
+				echo $row['time'].' ';
+				//echo $row['password'].'<br>';
+				echo"<br>";
+
+			}
+
+
+
+
+	//二回目以降の投稿処理
+	}elseif((!empty($name)&&!empty($comment))&&($password_check==$password_for_post)){
+
+
+
+			//3-5 　データベース内のレコードにデータを追加   テーブル名あり                                                     //nameとcommentはbindParamで設定              
+			$sql=$pdo->prepare("INSERT INTO test5 (name,comment,time,password) VALUES (:name,:comment,:time,'$password_for_post')");
+			$sql->bindParam(':name',$name,PDO::PARAM_STR);          //変数を使うときは「'」で囲む。「.」はいらない
+			$sql->bindParam(':comment',$comment,PDO::PARAM_STR);
+			$sql->bindParam(':time',$time,PDO::PARAM_STR);
+			$sql->execute();
+
+
+
+
+			//3-6　データベース内のデータを表示
+			//order byによって削除後に削除された場所に埋め込まれたidのずれたデータをidの昇順（ascend）に直している
+			$sql = 'SELECT * FROM test5 order by id asc';//テーブル名あり  
+			$results = $pdo -> query($sql);
+			print"<br>";
+				foreach ($results as $row){
+					//$rowの中にはテーブルのカラム(フィールド)名が入る
+ 					echo $row['id'].' ';
+					echo $row['name'].' ';
+					echo $row['comment'].' ';
+					echo $row['time'].' ';
+					//echo $row['password'].'<br>';
+					echo"<br>";
+				}
+
+
+	
+
+
+	}
 
 
 
@@ -392,6 +423,7 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 			echo $row['name'].' ';
 			echo $row['comment'].' ';
 			echo $row['time'].' ';
+			//echo $row['password'].'<br>';
 			echo"<br>";
 		}
 }
