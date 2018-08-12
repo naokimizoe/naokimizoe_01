@@ -164,7 +164,7 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 			echo $row['name'].' ';
 			echo $row['comment'].' ';
 			echo $row['time'].' ';
-			echo $row['password'].'<br>';
+			echo"<br>";
 		}
 
 
@@ -194,7 +194,7 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 			echo $row['name'].' ';
 			echo $row['comment'].' ';
 			echo $row['time'].' ';
-			echo $row['password'].'<br>';
+			echo"<br>";
 		}
 
 
@@ -226,7 +226,7 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 			echo $row['name'].' ';
 			echo $row['comment'].' ';
 			echo $row['time'].' ';
-			echo $row['password'].'<br>';
+			echo"<br>";
 		}
 
 
@@ -254,7 +254,7 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 			echo $row['name'].' ';
 			echo $row['comment'].' ';
 			echo $row['time'].' ';
-			echo $row['password'].'<br>';
+			echo"<br>";
 		}
 
 
@@ -276,7 +276,7 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 			echo $row['name'].' ';
 			echo $row['comment'].' ';
 			echo $row['time'].' ';
-			echo $row['password'].'<br>';
+			echo"<br>";
 		}
 	}
 
@@ -305,7 +305,7 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 			echo $row['name'].' ';
 			echo $row['comment'].' ';
 			echo $row['time'].' ';
-			echo $row['password'].'<br>';
+			echo"<br>";
 		}
 
 
@@ -336,7 +336,7 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 			echo $row['name'].' ';
 			echo $row['comment'].' ';
 			echo $row['time'].' ';
-			echo $row['password'].'<br>';
+			echo"<br>";
 		}
 
 
@@ -369,7 +369,7 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 			echo $row['name'].' ';
 			echo $row['comment'].' ';
 			echo $row['time'].' ';
-			echo $row['password'].'<br>';
+			echo"<br>";
 		}
 
 
@@ -390,7 +390,7 @@ if((!empty($edit)&&!empty($password_for_edit))&&($password_for_edit==$password_c
 			echo $row['name'].' ';
 			echo $row['comment'].' ';
 			echo $row['time'].' ';
-			echo $row['password'].'<br>';
+			echo"<br>";
 		}
 }
 
