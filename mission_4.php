@@ -4,9 +4,9 @@
 
 
 //3-1 データベース接続
-$dsn='mysql:dbname=tt_152_99sv_coco_com;host=localhost';
-$user='tt-152.99sv-coco.com';
-$password='Kx6tDi2v';
+$dsn='データベース名';
+$user='ユーザー名';
+$password='パスワード';
 $pdo=new PDO($dsn,$user,$password);//$pdoは「データベース」のこと、ここでデータベースに接続している
 $pdo->query('SET NAMES UTF8');
 
