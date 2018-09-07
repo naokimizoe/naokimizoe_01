@@ -102,7 +102,7 @@ if($name==''||$email==''||$password==''){
 
 
 
-	//隠して入力内容をmission_6_thanks.phpに送る
+	
 	print"<br>";
 	print'<div id="two_buttons">';
 	print'<form method="post" action="registration_form_03.php">';
