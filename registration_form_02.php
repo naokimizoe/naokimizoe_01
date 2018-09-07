@@ -105,7 +105,7 @@ if($name==''||$email==''||$password==''){
 	//隠して入力内容をmission_6_thanks.phpに送る
 	print"<br>";
 	print'<div id="two_buttons">';
-	print'<form method="post" action="mission_6_03.php">';
+	print'<form method="post" action="registration_form_03.php">';
 	print'<input name="name" type="hidden" value="'.$name.'">';
 	print'<input name="email" type="hidden" value="'.$email.'">';
 	print'<input name="password" type="hidden" value="'.$password.'">';
