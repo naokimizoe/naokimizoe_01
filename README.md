@@ -7,3 +7,5 @@ A video upload Site to introduce Japanese culture
 「comment.php」
 
 Registration Form from 「　mission_6_01.php　」to 「　mission_6_05.php　」
+
+Study - Time - Control - Site → 「Study_meter.php」
